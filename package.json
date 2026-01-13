@@ -1,0 +1,22 @@
+{
+  "name": "cypress-test-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Winchester-1/cypress-test-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Winchester-1/cypress-test-project/issues"
+  },
+  "homepage": "https://github.com/Winchester-1/cypress-test-project#readme",
+  "devDependencies": {
+    "cypress": "^15.8.2"
+  }
+}

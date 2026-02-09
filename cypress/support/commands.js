@@ -32,3 +32,22 @@ Cypress.Commands.add('login', (email, password) => {
 
   cy.get('button.btn-primary:eq(1)').click();
 });
+
+// Custom command for complete environment login flow
+Cypress.Commands.add('loginEnv', () => {
+  cy.visit('/', {
+    auth: {
+      username: Cypress.env('QAUTO_LOGIN'),
+      password: Cypress.env('QAUTO_PASSWORD'),
+    },
+  });
+
+  cy.get('button.header_signin').click();
+  cy.get('.modal-content').should('be.visible');
+
+  cy.get('#signinEmail').type(Cypress.env('login'));
+  cy.get('#signinPassword').type(Cypress.env('password'), { sensitive: true });
+
+  cy.get('button.btn-primary:eq(1)').click();
+  cy.get('app-garage').should('be.visible')
+});

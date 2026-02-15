@@ -24,6 +24,9 @@ module.exports = defineConfig({
       TEST_USER_LASTNAME: process.env.TEST_USER_LASTNAME,
       TEST_USER_EMAIL_DOMAIN: process.env.TEST_USER_EMAIL_DOMAIN,
       TEST_USER_PASSWORD: process.env.TEST_USER_PASSWORD,
+      login: process.env.QAUTO_USER_LOGIN,
+      password: process.env.QAUTO_USER_PASSWORD,
+
     },
   },
 });

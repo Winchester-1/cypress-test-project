@@ -16,7 +16,7 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 });
 
 // Custom command for complete login flow
-Cypress.Commands.add('login', (email, password) => {
+Cypress.Commands.add('login', () => {
   cy.visit('https://qauto.forstudy.space/', {
     auth: {
       username: Cypress.env('QAUTO_LOGIN'),
@@ -27,10 +27,12 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('button.header_signin').click();
   cy.get('.modal-content').should('be.visible');
 
-  cy.get('#signinEmail').type(email);
-  cy.get('#signinPassword').type(password, { sensitive: true });
+  cy.get('#signinEmail').type(Cypress.env('login'));
+  cy.get('#signinPassword').type(Cypress.env('password'), { sensitive: true });
 
   cy.get('button.btn-primary:eq(1)').click();
+  cy.get('app-garage').should('be.visible')
+
 });
 
 // Custom command for complete environment login flow
@@ -50,4 +52,12 @@ Cypress.Commands.add('loginEnv', () => {
 
   cy.get('button.btn-primary:eq(1)').click();
   cy.get('app-garage').should('be.visible')
+});
+
+Cypress.Commands.add('createExpense', (expenseBody) => {
+  return cy.request({
+    method: 'POST',
+    url: '/api/expenses',
+    body: expenseBody
+  });
 });

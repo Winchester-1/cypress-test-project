@@ -38,6 +38,15 @@ class GaragePage {
     cy.get(this.selectors.addButton).should('not.be.disabled').click();
   }
 
+  createCar(brand, model, mileage) {
+    this.clickAddCarButton();
+    this.isAddCarModalOpened();
+    this.selectCarBrand(brand);
+    this.selectCarModel(model);
+    this.typeCarMileage(mileage);
+    this.clickAddButton();
+  }
+
   clickEditButton() {
     cy.get(this.selectors.editButton).click();
   }

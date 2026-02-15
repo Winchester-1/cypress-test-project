@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-15T15:46:58.446Z",
+    "end": "2026-02-15T15:47:10.228Z",
+    "duration": 11782,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "075251fa-642e-4a6e-a57c-5f6d4664d57e",
+      "title": "",
+      "fullFile": "cypress\\e2e\\6-API-testing-with-Cypress\\task1.cy.js",
+      "file": "cypress\\e2e\\6-API-testing-with-Cypress\\task1.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "510c0a00-8593-462f-97ca-197bf7cc13ee",
+          "title": "Add Car With Expenses API Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should create new car, validate the creation request and save car ID",
+              "fullTitle": "Add Car With Expenses API Test should create new car, validate the creation request and save car ID",
+              "timedOut": null,
+              "duration": 4626,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '**/api/cars').as('createCar');\ngaragePage.createCar(validCarData.brand, validCarData.model, validCarData.mileage);\ncy.wait('@createCar').then(({\n  response\n}) => {\n  expect(response.statusCode).to.eq(201);\n  const createdCarId = response.body.data.id;\n  expect(createdCarId).to.exist;\n  cy.writeFile('cypress/fixtures/cars.json', {\n    id: createdCarId,\n    brand: validCarData.brand,\n    model: validCarData.model,\n    mileage: validCarData.mileage\n  });\n});",
+              "err": {},
+              "uuid": "4dc9e1e8-974b-487e-8760-729fc130770d",
+              "parentUUID": "510c0a00-8593-462f-97ca-197bf7cc13ee",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should get cars list and contain saved car data from fixture",
+              "fullTitle": "Add Car With Expenses API Test should get cars list and contain saved car data from fixture",
+              "timedOut": null,
+              "duration": 1906,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.fixture('cars').then(savedCar => {\n  cy.request('GET', '/api/cars').then(({\n    status,\n    body\n  }) => {\n    expect(status).to.eq(200);\n    expect(body.status).to.eq('ok');\n    expect(body.data).to.be.an('array');\n    const matchingCar = body.data.find(car => car.id === savedCar.id && car.brand === savedCar.brand && car.model === savedCar.model && car.mileage === Number(savedCar.mileage));\n    expect(matchingCar).to.exist;\n  });\n});",
+              "err": {},
+              "uuid": "ff39b8d2-5ef8-44d0-ad78-470275153978",
+              "parentUUID": "510c0a00-8593-462f-97ca-197bf7cc13ee",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should create expense for saved car id and validate response",
+              "fullTitle": "Add Car With Expenses API Test should create expense for saved car id and validate response",
+              "timedOut": null,
+              "duration": 1688,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.fixture('cars').then(savedCar => {\n  cy.createExpense({\n    carId: savedCar.id,\n    reportedAt: validExpensesData.reportedAt,\n    mileage: Number(validExpensesData.mileage),\n    liters: Number(validExpensesData.liters),\n    totalCost: Number(validExpensesData.cost),\n    forceMileage: false\n  }).then(({\n    status,\n    body\n  }) => {\n    expect(status).to.eq(200);\n    expect(body.status).to.eq('ok');\n    expect(body.data).to.include({\n      carId: savedCar.id,\n      mileage: Number(validExpensesData.mileage),\n      liters: Number(validExpensesData.liters),\n      totalCost: Number(validExpensesData.cost)\n    });\n    expect(body.data.reportedAt).to.include(validExpensesData.reportedAt);\n  });\n});",
+              "err": {},
+              "uuid": "ce090859-bce5-45ea-a74d-4d2efc1f6fa4",
+              "parentUUID": "510c0a00-8593-462f-97ca-197bf7cc13ee",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should display created expense in expenses table for selected car",
+              "fullTitle": "Add Car With Expenses API Test should display created expense in expenses table for selected car",
+              "timedOut": null,
+              "duration": 2072,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.fixture('cars').then(savedCar => {\n  expensesPage.clickExpensePage();\n  expensesPage.getCarSelector().should('have.text', `${savedCar.brand} ${savedCar.model}`);\n  expensesPage.checkExpenseTableRow({\n    date: validExpensesData.date,\n    mileage: validExpensesData.mileage,\n    liters: validExpensesData.liters,\n    totalCost: validExpensesData.cost\n  });\n});",
+              "err": {},
+              "uuid": "c1646ccb-94e4-49e6-aad3-dd73205eaf29",
+              "parentUUID": "510c0a00-8593-462f-97ca-197bf7cc13ee",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4dc9e1e8-974b-487e-8760-729fc130770d",
+            "ff39b8d2-5ef8-44d0-ad78-470275153978",
+            "ce090859-bce5-45ea-a74d-4d2efc1f6fa4",
+            "c1646ccb-94e4-49e6-aad3-dd73205eaf29"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 10292,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
